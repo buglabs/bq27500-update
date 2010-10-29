@@ -1,0 +1,58 @@
+
+bqupdate.c - a user-space utility for updating bq27x00 fuel gauges.
+
+
+It is advisable to have a great deal of familarity with the bq fuel gauges
+before using this utility.  Error handling in this code is spotty; encountering
+an error may brick your IC, so pleae USE THIS AT YOUR OWN RISK.
+
+This code was designed specifically for updating the bq27500 on the Bug Labs Bug
+2.0 platform.
+
+Usage: bqupdate 2 update.dfi
+
+2 designates the i2c bus
+update.dfi is the dfi to be loaded
+
+
+########################
+ DFI/FIRMWARE VERSIONS:
+########################
+
+The dfi file that you write MUST be compatible with the firmware on the gauge or you'll
+brick the device.
+
+Firmware on Bug 2.0 Rev A boards is v106
+Firmware on Bug 2.0 Rev B boards is v120
+
+In the git repo you should find:
+Stock TI dfi for v106 - bq27500_1_06.dfi
+Stock TI dfi for v120 - bq27500_1_20.dfi
+Custom Bug2 Rev B dfi - Bug20_0500_0120_GOLDEN.dfi
+
+The version checker in bqupdate.c is dumb - it simply checks the firmware version on the
+fuel gauge against a hardcoded value. Make sure the hardcoded value is set correctly in
+the if statement near line 219. (search "version !=")
+
+ALSO make sure that the dfi you feed bqupdate matches this hardcoded value. bqupdate
+will force feed the gauge any dfi that you give it.
+
+##########
+ IF FLASH
+##########
+
+There is some code in bqupdate for writing the two rows of IF flash into a file. There is
+also some code for reading in the two rows from a file. The idea was to preserve the IF data
+so that in case bqupdate fails, the IC could be salvaged by reading the backup file and
+writing these two rows back to the device. bqupdate seems to write and read the file with
+no problems, but for some reason writing the rows back to the device never works. I believe
+it has something to do with the flow, rather than the data integrity.
+
+###########
+ COMPILING
+###########
+
+I was just compiling like this:
+arm-angstrom-linux-gnueabi-gcc -o bqupdate bqupdate.c
+
+Maybe someone can whip up a Makefile.
