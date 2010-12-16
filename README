@@ -15,9 +15,9 @@ Usage: bqupdate 2 update.dfi
 update.dfi is the dfi to be loaded
 
 
-########################
+#########################
  DFI/FIRMWARE VERSIONS:
-########################
+#########################
 
 The dfi file that you write MUST be compatible with the firmware on the gauge or you'll
 brick the device.
