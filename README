@@ -55,4 +55,4 @@ it has something to do with the flow, rather than the data integrity.
 I was just compiling like this:
 arm-angstrom-linux-gnueabi-gcc -o bqupdate bqupdate.c
 
-Maybe someone can whip up a Makefile.
+Maybe someone can whip up a Makefile, or even a bitbake recipe?
